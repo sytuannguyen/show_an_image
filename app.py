@@ -21,8 +21,7 @@ def display_image(image, zoom):
 if uploaded_file is not None:
     # Read the image using PIL
     image = Image.open(uploaded_file)
-    # Image zoom options
-    zoom_level = st.slider("Zoom Level", min_value=0.1, max_value=3.0, value=1.0, step=0.1)
+    
     # Display the uploaded image with zoom
     uploaded_image = display_image(image, zoom_level)
 
@@ -44,7 +43,7 @@ if uploaded_file is not None:
 
     # Display the enhanced image with zoom
     st.subheader("Enhanced Image")
-    st.image(enhanced_image, caption='Enhanced Image.', use_column_width=True, clamp=True, width=int(enhanced_image.width * zoom_level))
+    st.image(enhanced_image, caption='Enhanced Image.'))
 
 else:
     st.write("Please upload an image.")
