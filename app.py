@@ -12,8 +12,8 @@ if uploaded_file is None:
     uploaded_file = 'Tolkien Fanart.png'
     
 # Function to display the uploaded image
-def display_image(image, zoom):
-    st.image(image, caption='Uploaded Image.', use_column_width=True, clamp=True, width=int(image.width * zoom))
+def display_image(image):
+    st.image(image, caption='Uploaded Image.')
     st.write("")
     return image
 
@@ -22,8 +22,8 @@ if uploaded_file is not None:
     # Read the image using PIL
     image = Image.open(uploaded_file)
     
-    # Display the uploaded image with zoom
-    uploaded_image = display_image(image, zoom_level)
+    # Display the uploaded image
+    uploaded_image = display_image(image)
 
     # Image enhancement options
     st.subheader("Image Enhancement Options")
