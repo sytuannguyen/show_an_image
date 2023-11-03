@@ -1,8 +1,6 @@
 # Import required libraries
 import streamlit as st
-from PIL import Image, ImageEnhance
-import cv2
-import numpy as np
+from PIL import Image, ImageEnhance, ImageOps
 
 # Streamlit app title
 st.title('Image Enhancement App')
@@ -13,23 +11,18 @@ uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg
 if uploaded_file is None:
     uploaded_file = 'Tolkien Fanart.png'
 
-# Function to remove background from the image
+# Function to remove background using alpha blending
 def remove_background(image):
-    # Convert PIL image to OpenCV format
-    cv_image = np.array(image)
-    # Convert RGB to BGR
-    cv_image = cv2.cvtColor(cv_image, cv2.COLOR_RGB2BGR)
-    # Define a mask range for background color (white)
-    lower_bound = np.array([200, 200, 200], dtype=np.uint8)
-    upper_bound = np.array([255, 255, 255], dtype=np.uint8)
-    # Create a mask and update the image to keep only the foreground
-    mask = cv2.inRange(cv_image, lower_bound, upper_bound)
-    result = cv2.bitwise_and(cv_image, cv_image, mask=mask)
-    # Convert BGR back to RGB
-    result = cv2.cvtColor(result, cv2.COLOR_BGR2RGB)
-    # Convert NumPy array to PIL image
-    result_image = Image.fromarray(result)
-    return result_image
+    # Convert the image to RGBA mode
+    image = image.convert("RGBA")
+
+    # Create a new image with a white background
+    new_image = Image.new("RGBA", image.size, (255, 255, 255, 255))
+
+    # Perform alpha blending to remove the background
+    final_image = Image.alpha_composite(new_image, image)
+
+    return final_image
 
 # Function to display the uploaded image
 def display_image(image):
@@ -41,7 +34,7 @@ def display_image(image):
 if uploaded_file is not None:
     # Read the image using PIL
     image = Image.open(uploaded_file)
-    
+
     # Display the uploaded image
     uploaded_image = display_image(image)
 
@@ -64,7 +57,7 @@ if uploaded_file is not None:
 
     # Convert to black and white if the checkbox is selected
     if grayscale:
-        enhanced_image = enhanced_image.convert("L")
+        enhanced_image = ImageOps.grayscale(enhanced_image)
 
     # Display the enhanced image with zoom
     st.subheader("Enhanced Image")
