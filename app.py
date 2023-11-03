@@ -44,4 +44,7 @@ if uploaded_file is not None:
 
     # Display the enhanced image with zoom
     st.subheader("Enhanced Image")
-   
+    st.image(enhanced_image, caption='Enhanced Image.', use_column_width=True)
+
+else:
+    st.write("Please upload an image.")
