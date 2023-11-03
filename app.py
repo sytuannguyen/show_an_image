@@ -6,8 +6,11 @@ from PIL import Image, ImageEnhance
 st.title('Image Enhancement App')
 
 # Upload image through file uploader with a default value
-uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"], default="Tolkien Fanart.png")
+uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
 
+if uploaded_file is None:
+    uploaded_file = 'Tolkien Fanart.png'
+    
 # Function to display the uploaded image
 def display_image(image, zoom):
     st.image(image, caption='Uploaded Image.', use_column_width=True, clamp=True, width=int(image.width * zoom))
