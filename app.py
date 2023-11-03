@@ -8,6 +8,9 @@ st.title('Image Enhancement App')
 # Upload image through file uploader
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
 
+if uploaded_file is None:
+    uploaded_file = 'Tolkien Fanart.png'
+    
 # Function to display the uploaded image
 def display_image(image):
     st.image(image, caption='Uploaded Image.', use_column_width=True)
